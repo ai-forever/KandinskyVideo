@@ -1,1 +1,1 @@
-# Video-Kandinsky-3
+# KandinskyVideo — SoTA open-source end-to-end Text-to-Video generative model
