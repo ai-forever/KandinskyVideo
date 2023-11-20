@@ -83,11 +83,17 @@ class BaseDiffusion:
         posterior_log_variance = get_tensor_items(self.posterior_log_variance, t, x_start.shape)
         return posterior_mean, posterior_variance, posterior_log_variance
 
-    def text_guidance(self, model, x, t, context, context_mask, temporal_positions, null_embedding,
-                      guidance_weight_text,
-                      uncondition_context=None, uncondition_context_mask=None):
+    def text_guidance(self, model, x, t, context, context_mask, null_embedding, guidance_weight_text,
+                      temporal_positions=None, uncondition_context=None, uncondition_context_mask=None,
+                      base_frames=None, num_temporal_groups=None, skip_frames=None):
         large_x = x.repeat(2, 1, 1, 1)
         large_t = t.repeat(2)
+        if base_frames is not None:
+            left_base_frames, right_base_frames = base_frames
+            null_base_frames = torch.zeros_like(left_base_frames)
+            large_left_base_frames = torch.cat([left_base_frames, null_base_frames])
+            large_right_base_frames = torch.cat([right_base_frames, null_base_frames])
+            large_x = torch.cat([large_left_base_frames, large_x, large_right_base_frames], dim=1)
 
         if uncondition_context is None:
             uncondition_context = torch.zeros_like(context)
@@ -96,58 +102,77 @@ class BaseDiffusion:
             uncondition_context_mask[:, 0] = 1
         large_context = torch.cat([context, uncondition_context])
         large_context_mask = torch.cat([context_mask, uncondition_context_mask])
-        large_temporal_positions = torch.cat([temporal_positions, temporal_positions])
+
+        if temporal_positions is not None:
+            temporal_positions = torch.cat([temporal_positions, temporal_positions])
+        if skip_frames is not None:
+            skip_frames = torch.cat([skip_frames, skip_frames])
 
         pred_large_noise = model(
-            large_x, large_t * self.time_scale, large_context, large_context_mask.bool(), large_temporal_positions
+            large_x, large_t * self.time_scale, large_context, large_context_mask.bool(), temporal_positions,
+            skip_frames, num_temporal_groups
+
         )
         pred_noise, uncond_pred_noise = torch.chunk(pred_large_noise, 2)
         pred_noise = (guidance_weight_text + 1.) * pred_noise - guidance_weight_text * uncond_pred_noise
         return pred_noise
 
-    def p_mean_variance(self, model, x, t, context, context_mask, temporal_positions, null_embedding,
-                        guidance_weight_text,
-                        negative_context=None, negative_context_mask=None):
+    def p_mean_variance(self, model, x, t, context, context_mask, null_embedding, guidance_weight_text,
+                        temporal_positions=None, negative_context=None, negative_context_mask=None,
+                        base_frames=None, num_temporal_groups=None, skip_frames=None, v_predication=False):
 
-        pred_noise = self.text_guidance(model, x, t, context, context_mask, temporal_positions,
-                                        null_embedding, guidance_weight_text, negative_context, negative_context_mask)
+        pred_noise = self.text_guidance(
+            model, x, t, context, context_mask, null_embedding, guidance_weight_text,
+            temporal_positions=temporal_positions,
+            uncondition_context=negative_context, uncondition_context_mask=negative_context_mask,
+            base_frames=base_frames, num_temporal_groups=num_temporal_groups, skip_frames=skip_frames,
+        )
 
         sqrt_one_minus_alphas_cumprod = get_tensor_items(self.sqrt_one_minus_alphas_cumprod, t, pred_noise.shape)
         sqrt_alphas_cumprod = get_tensor_items(self.sqrt_alphas_cumprod, t, pred_noise.shape)
-        pred_x_start = (x - sqrt_one_minus_alphas_cumprod * pred_noise) / sqrt_alphas_cumprod
+        if v_predication:
+            pred_v = pred_noise
+            pred_x_start = sqrt_alphas_cumprod * x - sqrt_one_minus_alphas_cumprod * pred_v
+        else:
+            pred_x_start = (x - sqrt_one_minus_alphas_cumprod * pred_noise) / sqrt_alphas_cumprod
         pred_x_start = self.process_x_start(pred_x_start)
 
         pred_mean, pred_var, pred_log_var = self.q_posterior_mean_variance(pred_x_start, x, t)
         return pred_mean, pred_var, pred_log_var
 
     @torch.no_grad()
-    def p_sample(self, model, x, t, context, context_mask, temporal_positions, null_embedding,
-                 guidance_weight_text,
-                 negative_context=None, negative_context_mask=None):
+    def p_sample(self, model, x, t, context, context_mask, null_embedding, guidance_weight_text,
+                 temporal_positions=None, negative_context=None, negative_context_mask=None,
+                 base_frames=None, num_temporal_groups=None, skip_frames=None, v_predication=False):
         bs = x.shape[0]
         ndims = len(x.shape[1:])
-        pred_mean, _, pred_log_var = self.p_mean_variance(model, x, t, context, context_mask, temporal_positions,
-                                                          null_embedding, guidance_weight_text,
-                                                          negative_context=negative_context,
-                                                          negative_context_mask=negative_context_mask)
+        pred_mean, _, pred_log_var = self.p_mean_variance(
+            model, x, t, context, context_mask, null_embedding, guidance_weight_text,
+            temporal_positions=temporal_positions,
+            negative_context=negative_context, negative_context_mask=negative_context_mask,
+            base_frames=base_frames, num_temporal_groups=num_temporal_groups, skip_frames=skip_frames,
+            v_predication=v_predication
+        )
         noise = torch.randn_like(x)
         mask = (t != 0).reshape(bs, *((1,) * ndims))
         sample = pred_mean + mask * torch.exp(0.5 * pred_log_var) * noise
         return sample
 
     @torch.no_grad()
-    def p_sample_loop(self, model, shape, device, context, context_mask, temporal_positions, null_embedding,
-                      guidance_weight_text, negative_context=None, negative_context_mask=None):
-
+    def p_sample_loop(self, model, shape, device, context, context_mask, null_embedding, guidance_weight_text,
+                      temporal_positions=None, negative_context=None, negative_context_mask=None,
+                      base_frames=None, num_temporal_groups=None, skip_frames=None, v_predication=False):
         img = torch.randn(*shape, device=device)
         t_start = self.num_timesteps
         time = list(range(t_start))[::-1]
-
         for time in tqdm(time, position=0):
             time = torch.tensor([time] * shape[0], device=device)
             img = self.p_sample(
-                model, img, time, context, context_mask, temporal_positions, null_embedding, guidance_weight_text,
+                model, img, time, context, context_mask, null_embedding, guidance_weight_text,
+                temporal_positions=temporal_positions,
                 negative_context=negative_context, negative_context_mask=negative_context_mask,
+                base_frames=base_frames, num_temporal_groups=num_temporal_groups, skip_frames=skip_frames,
+                v_predication=v_predication
             )
         return img
 

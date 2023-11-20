@@ -9,7 +9,8 @@ from .utils import exist, set_default_item, set_default_layer
 class Block(nn.Module):
 
     def __init__(
-            self, in_channels, out_channels, time_embed_dim, kernel_size=3, norm_groups=32, up_resolution=None
+            self, in_channels, out_channels, time_embed_dim, kernel_size=3, norm_groups=32, up_resolution=None,
+            temporal=False,
     ):
         super().__init__()
         self.group_norm = ConditionalGroupNorm(norm_groups, in_channels, time_embed_dim)
@@ -25,11 +26,22 @@ class Block(nn.Module):
             nn.Conv2d, (out_channels, out_channels), {'kernel_size': 2, 'stride': 2}
         )
 
-    def forward(self, x, time_embed):
+        if temporal:
+            self.temporal_merge = torch.nn.Parameter(torch.tensor([0.]))
+            self.temporal_projection = nn.Conv3d(out_channels, out_channels, (3, 1, 1), padding=(1, 0, 0))
+            self.temporal_projection.weight.data.zero_()
+            self.temporal_projection.bias.data.zero_()
+
+    def forward(self, x, time_embed, num_temporal_groups=None):
         x = self.group_norm(x, time_embed)
         x = self.activation(x)
         x = self.up_sample(x)
         x = self.projection(x)
+        if exist(num_temporal_groups):
+            out = rearrange(x, '(b t) c h w -> b c t h w', t=num_temporal_groups)
+            out = self.temporal_projection(out)
+            out = rearrange(out, 'b c t h w -> (b t) c h w')
+            x = (1 - self.temporal_merge) * x + self.temporal_merge * out
         x = self.down_sample(x)
         return x
 
@@ -38,15 +50,16 @@ class ResNetBlock(nn.Module):
 
     def __init__(
             self, in_channels, out_channels, time_embed_dim, norm_groups=32, compression_ratio=2,
-            up_resolutions=4 * [None]
+            up_resolutions=None, temporal=False
     ):
         super().__init__()
         kernel_sizes = [1, 3, 3, 1]
         hidden_channel = max(in_channels, out_channels) // compression_ratio
-        hidden_channels = [(in_channels, hidden_channel)] + [(hidden_channel, hidden_channel)] * 2 + [
-            (hidden_channel, out_channels)]
+        hidden_channels = [(in_channels, hidden_channel)] + [(hidden_channel, hidden_channel)] * 2 + [(hidden_channel, out_channels)]
+        if not exist(up_resolutions):
+            up_resolutions = 4 * [None]
         self.resnet_blocks = nn.ModuleList([
-            Block(in_channel, out_channel, time_embed_dim, kernel_size, norm_groups, up_resolution)
+            Block(in_channel, out_channel, time_embed_dim, kernel_size, norm_groups, up_resolution, temporal)
             for (in_channel, out_channel), kernel_size, up_resolution in
             zip(hidden_channels, kernel_sizes, up_resolutions)
         ])
@@ -64,10 +77,10 @@ class ResNetBlock(nn.Module):
             nn.Conv2d, (out_channels, out_channels), {'kernel_size': 2, 'stride': 2}
         )
 
-    def forward(self, x, time_embed):
+    def forward(self, x, time_embed, num_temporal_groups=None):
         out = x
         for resnet_block in self.resnet_blocks:
-            out = resnet_block(out, time_embed)
+            out = resnet_block(out, time_embed, num_temporal_groups)
 
         x = self.shortcut_up_sample(x)
         x = self.shortcut_projection(x)
@@ -185,7 +198,7 @@ class DownSampleBlock(nn.Module):
     def __init__(
             self, in_channels, out_channels, time_embed_dim, context_dim=None,
             num_blocks=3, groups=32, head_dim=64, expansion_ratio=4, compression_ratio=2,
-            down_sample=True, self_attention=True, num_frames=None
+            down_sample=True, self_attention=True, num_frames=None, interpolation=False
     ):
         super().__init__()
         self.self_attention_block = set_default_layer(
@@ -203,13 +216,13 @@ class DownSampleBlock(nn.Module):
         hidden_channels = [(in_channels, out_channels)] + [(out_channels, out_channels)] * (num_blocks - 1)
         self.resnet_attn_blocks = nn.ModuleList([
             nn.ModuleList([
-                ResNetBlock(in_channel, out_channel, time_embed_dim, groups, compression_ratio),
+                ResNetBlock(in_channel, out_channel, time_embed_dim, groups, compression_ratio, temporal=interpolation),
                 set_default_layer(
                     exist(context_dim),
                     AttentionBlock, (out_channel, time_embed_dim, context_dim, groups, head_dim, expansion_ratio),
                     layer_2=Identity
                 ),
-                ResNetBlock(out_channel, out_channel, time_embed_dim, groups, compression_ratio, up_resolution),
+                ResNetBlock(out_channel, out_channel, time_embed_dim, groups, compression_ratio, up_resolution, temporal=interpolation),
                 set_default_layer(
                     exist(num_frames),
                     TemporalResNetBlock, (out_channel, time_embed_dim, num_frames, groups, compression_ratio),
@@ -223,16 +236,16 @@ class DownSampleBlock(nn.Module):
             ]) for (in_channel, out_channel), up_resolution in zip(hidden_channels, up_resolutions)
         ])
 
-    def forward(self, x, time_embed, context=None, context_mask=None, temporal_embed=None):
+    def forward(self, x, time_embed, context=None, context_mask=None, temporal_embed=None, num_temporal_groups=None):
         x = self.self_attention_block(x, time_embed)
         x = self.temporal_attention_block(x, time_embed, temporal_embed)
         for (
                 in_resnet_block, attention, out_resnet_block, in_temporal_resnet_block, out_temporal_resnet_block
         ) in self.resnet_attn_blocks:
-            x = in_resnet_block(x, time_embed)
+            x = in_resnet_block(x, time_embed, num_temporal_groups)
             x = in_temporal_resnet_block(x, time_embed)
             x = attention(x, time_embed, context, context_mask)
-            x = out_resnet_block(x, time_embed)
+            x = out_resnet_block(x, time_embed, num_temporal_groups)
             x = out_temporal_resnet_block(x, time_embed)
         return x
 
@@ -242,7 +255,7 @@ class UpSampleBlock(nn.Module):
     def __init__(
             self, in_channels, cat_dim, out_channels, time_embed_dim, context_dim=None,
             num_blocks=3, groups=32, head_dim=64, expansion_ratio=4, compression_ratio=2,
-            up_sample=True, self_attention=True, num_frames=None
+            up_sample=True, self_attention=True, num_frames=None, interpolation=False
     ):
         super().__init__()
         up_resolutions = [[None, set_default_item(up_sample, True), None, None]] + [[None] * 4] * (num_blocks - 1)
@@ -250,13 +263,13 @@ class UpSampleBlock(nn.Module):
             (in_channels, out_channels)]
         self.resnet_attn_blocks = nn.ModuleList([
             nn.ModuleList([
-                ResNetBlock(in_channel, in_channel, time_embed_dim, groups, compression_ratio, up_resolution),
+                ResNetBlock(in_channel, in_channel, time_embed_dim, groups, compression_ratio, up_resolution, temporal=interpolation),
                 set_default_layer(
                     exist(context_dim),
                     AttentionBlock, (in_channel, time_embed_dim, context_dim, groups, head_dim, expansion_ratio),
                     layer_2=Identity
                 ),
-                ResNetBlock(in_channel, out_channel, time_embed_dim, groups, compression_ratio),
+                ResNetBlock(in_channel, out_channel, time_embed_dim, groups, compression_ratio, temporal=interpolation),
                 set_default_layer(
                     exist(num_frames),
                     TemporalResNetBlock, (in_channel, time_embed_dim, num_frames, groups, compression_ratio),
@@ -283,15 +296,15 @@ class UpSampleBlock(nn.Module):
             layer_2=Identity
         )
 
-    def forward(self, x, time_embed, context=None, context_mask=None, temporal_embed=None):
+    def forward(self, x, time_embed, context=None, context_mask=None, temporal_embed=None, num_temporal_groups=None):
         for (
                 in_resnet_block, attention, out_resnet_block, in_temporal_resnet_block, out_temporal_resnet_block
         ) in self.resnet_attn_blocks:
             x = in_temporal_resnet_block(x, time_embed)
-            x = in_resnet_block(x, time_embed)
+            x = in_resnet_block(x, time_embed, num_temporal_groups)
             x = attention(x, time_embed, context, context_mask)
             x = out_temporal_resnet_block(x, time_embed)
-            x = out_resnet_block(x, time_embed)
+            x = out_resnet_block(x, time_embed, num_temporal_groups)
         x = self.temporal_attention_block(x, time_embed, temporal_embed)
         x = self.self_attention_block(x, time_embed)
         return x
@@ -303,6 +316,7 @@ class UNet(nn.Module):
                  model_channels,
                  init_channels=None,
                  num_channels=3,
+                 out_channels=3,
                  time_embed_dim=None,
                  context_dim=None,
                  groups=32,
@@ -313,11 +327,12 @@ class UNet(nn.Module):
                  num_blocks=(3, 3, 3, 3),
                  add_cross_attention=(False, True, True, True),
                  add_self_attention=(False, True, True, True),
-                 num_frames=None
+                 num_frames=None,
+                 interpolation=False,
                  ):
         super().__init__()
+        num_frames = set_default_item(interpolation, None, num_frames)
         self.num_frames = num_frames
-        out_channels = num_channels
         init_channels = init_channels or model_channels
         self.to_time_embed = nn.Sequential(
             SinusoidalPosEmb(init_channels),
@@ -325,13 +340,26 @@ class UNet(nn.Module):
             nn.SiLU(),
             nn.Linear(time_embed_dim, time_embed_dim)
         )
-        self.feature_pooling = AttentionPolling(time_embed_dim, context_dim, head_dim)
-        self.to_temporal_embed = nn.Sequential(
-            SinusoidalPosEmb(init_channels),
-            nn.Linear(init_channels, time_embed_dim),
-            nn.SiLU(),
-            nn.Linear(time_embed_dim, time_embed_dim)
-        )
+        if exist(context_dim):
+            self.feature_pooling = AttentionPolling(time_embed_dim, context_dim, head_dim)
+        if exist(num_frames):
+            self.to_temporal_embed = nn.Sequential(
+                SinusoidalPosEmb(init_channels),
+                nn.Linear(init_channels, time_embed_dim),
+                nn.SiLU(),
+                nn.Linear(time_embed_dim, time_embed_dim)
+            )
+        if interpolation:
+            self.perturbation_to_time_embed = nn.Sequential(
+                SinusoidalPosEmb(init_channels),
+                nn.Linear(init_channels, time_embed_dim),
+                nn.SiLU(),
+                nn.Linear(time_embed_dim, time_embed_dim)
+            )
+            self.time_embed_merge = torch.nn.Parameter(torch.tensor([0.]))
+
+            self.skip_merge = torch.nn.Parameter(torch.tensor([0.]))
+            self.skip_embeddings = torch.nn.Embedding(20, time_embed_dim)
 
         self.in_layer = nn.Conv2d(num_channels, init_channels, kernel_size=3, padding=1)
         hidden_dims = [init_channels, *map(lambda mult: model_channels * mult, dim_mult)]
@@ -350,7 +378,7 @@ class UNet(nn.Module):
             self.down_samples.append(
                 DownSampleBlock(
                     in_dim, out_dim, time_embed_dim, text_dim, res_block_num, groups, head_dim, expansion_ratio,
-                    compression_ratio, down_sample, self_attention, num_frames
+                    compression_ratio, down_sample, self_attention, num_frames, interpolation
                 )
             )
 
@@ -361,7 +389,7 @@ class UNet(nn.Module):
             self.up_samples.append(
                 UpSampleBlock(
                     in_dim, cat_dims.pop(), out_dim, time_embed_dim, text_dim, res_block_num, groups, head_dim,
-                    expansion_ratio, compression_ratio, up_sample, self_attention, num_frames
+                    expansion_ratio, compression_ratio, up_sample, self_attention, num_frames, interpolation
                 )
             )
 
@@ -371,7 +399,10 @@ class UNet(nn.Module):
             nn.Conv2d(init_channels, out_channels, kernel_size=3, padding=1)
         )
 
-    def forward(self, x, time, context=None, context_mask=None, temporal_embed=None):
+    def forward(
+            self, x, time, context=None, context_mask=None, temporal_embed=None,
+            skip_frames=None, num_temporal_groups=None
+    ):
         time_embed = self.to_time_embed(time)
         if exist(context):
             time_embed = self.feature_pooling(time_embed, context, context_mask)
@@ -380,15 +411,22 @@ class UNet(nn.Module):
         x = self.in_layer(x)
         if exist(temporal_embed):
             temporal_embed = self.to_temporal_embed(temporal_embed)
+        if exist(num_temporal_groups):
+            perturbation_time = torch.zeros(size=(context.shape[0],), device=context.device)
+            perturbation_time_embed = self.perturbation_to_time_embed(perturbation_time)
+            time_embed = self.time_embed_merge * perturbation_time_embed + (1 - self.time_embed_merge) * time_embed
+
+            skip_emb = self.skip_embeddings(skip_frames)
+            time_embed = self.skip_merge * skip_emb + time_embed
 
         for level, down_sample in enumerate(self.down_samples):
-            x = down_sample(x, time_embed, context, context_mask, temporal_embed)
+            x = down_sample(x, time_embed, context, context_mask, temporal_embed, num_temporal_groups)
             if level != self.num_levels - 1:
                 hidden_states.append(x)
         for level, up_sample in enumerate(self.up_samples):
             if level != 0:
                 x = torch.cat([x, hidden_states.pop()], dim=1)
-            x = up_sample(x, time_embed, context, context_mask, temporal_embed)
+            x = up_sample(x, time_embed, context, context_mask, temporal_embed, num_temporal_groups)
         x = self.out_layer(x)
         return x
 

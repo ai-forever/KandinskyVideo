@@ -56,6 +56,44 @@ def get_T2V_unet(
     return unet, null_embedding, projections_state_dict
 
 
+def get_interpolation_unet(
+        device: Union[str, torch.device],
+        weights_path: Optional[str] = None,
+        fp16: bool = False
+) -> (UNet, Optional[dict], Optional[torch.Tensor]):
+    unet = UNet(
+        model_channels=384,
+        num_channels=20,
+        out_channels=12,
+        init_channels=192,
+        time_embed_dim=1536,
+        context_dim=4096,
+        groups=32,
+        head_dim=64,
+        expansion_ratio=4,
+        compression_ratio=2,
+        dim_mult=(1, 2, 4, 8),
+        num_blocks=(3, 3, 3, 3),
+        add_cross_attention=(False, True, True, True),
+        add_self_attention=(False, True, True, True),
+        interpolation=True
+    )
+
+    # load weights
+    null_embedding = None
+    if weights_path:
+        state_dict = torch.load(weights_path, map_location=torch.device('cpu'))
+        null_embedding = state_dict['null_embedding']
+        unet.load_state_dict(state_dict['unet'])
+
+    unet.eval().to(device)
+
+    if fp16:
+        unet = unet.half()
+
+    return unet, null_embedding
+
+
 def get_T5encoder(
         device: Union[str, torch.device],
         weights_path: str,
