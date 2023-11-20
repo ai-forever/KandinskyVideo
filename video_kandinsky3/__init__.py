@@ -25,6 +25,7 @@ def get_T2V_unet(
     unet = UNet(
         model_channels=384,
         num_channels=4,
+        out_channels=4,
         init_channels=192,
         time_embed_dim=1536,
         context_dim=4096,
