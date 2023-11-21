@@ -120,7 +120,7 @@ video = pipeline(
 
 + Vladimir Arkhipkin: [Github](https://github.com/oriBetelgeuse), [Google Scholar](https://scholar.google.com/citations?user=D-Ko0oAAAAAJ&hl=ru)
 + Zein Shaheen: [Github](https://github.com/zeinsh), [Google Scholar](https://scholar.google.ru/citations?user=bxlgMxMAAAAJ&hl=en)
-+ Viacheslav Vasilev: [Github](), [Google Scholar](https://scholar.google.com/citations?user=redAz-kAAAAJ&hl=ru&oi=sra)
++ Viacheslav Vasilev: [Github](https://github.com/vivasilev), [Google Scholar](https://scholar.google.com/citations?user=redAz-kAAAAJ&hl=ru&oi=sra)
 + Igor Pavlov: [Github](https://github.com/boomb0om)
 + Elizaveta Dakhova: [Github](https://github.com/LizaDakhova)
 + Anastasia Lysenko: [Github](https://github.com/LysenkoAnastasia)
