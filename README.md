@@ -118,15 +118,15 @@ video = pipeline(
 
 # Authors
 
-+ Vladimir Arkhipkin
-+ Zein Shaheen
-+ Viacheslav Vasilev
-+ Igor Pavlov
-+ Elizaveta Dakhova
-+ Anastasia Lysenko
++ Vladimir Arkhipkin: [Github](https://github.com/oriBetelgeuse), [Google Scholar](https://scholar.google.com/citations?user=D-Ko0oAAAAAJ&hl=ru)
++ Zein Shaheen: [Github](https://github.com/zeinsh), [Google Scholar](https://scholar.google.ru/citations?user=bxlgMxMAAAAJ&hl=en)
++ Viacheslav Vasilev: [Github](), [Google Scholar](https://scholar.google.com/citations?user=redAz-kAAAAJ&hl=ru&oi=sra)
++ Igor Pavlov: [Github](https://github.com/boomb0om)
++ Elizaveta Dakhova: [Github](https://github.com/LizaDakhova)
++ Anastasia Lysenko: [Github](https://github.com/LysenkoAnastasia)
 + Sergey Markov
-+ Denis Dimitrov
-+ Andrey Kuznetsov
++ Denis Dimitrov: [Github](https://github.com/denndimitrov), [Google Scholar](https://scholar.google.com/citations?user=3JSIJpYAAAAJ&hl=ru&oi=ao)
++ Andrey Kuznetsov: [Github](https://github.com/kuznetsoffandrey), [Google Scholar](https://scholar.google.com/citations?user=q0lIfCEAAAAJ&hl=ru)
 
 
 ## BibTeX
