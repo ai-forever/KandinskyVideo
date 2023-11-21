@@ -3,10 +3,8 @@
 
 This repository is the official implementation of Kandinsky Video model
 
-**Authors**
-
 </br>
-Vladimir Arkhipkin,
+**Authors** Vladimir Arkhipkin,
 Zein Shaheen,
 Viacheslav Vasilev,
 Igor Pavlov,
@@ -27,7 +25,7 @@ Paper | [Project](https://ai-forever.github.io/kandinsky-video/) | Hugging Face 
 </p>
 
 
-**Overall pipeline**
+## Pipeline
 
 <p align="center">
 <img src="__assets__/pipeline.jpg" width="800px"/>  
