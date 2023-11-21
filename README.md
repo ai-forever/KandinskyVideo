@@ -72,10 +72,10 @@ video = pipeline(
 
 <table class="center">
 <tr>
-  <td><img src="__assets__/results/.gif" raw=true></td>
-  <td><img src="__assets__/results/.gif"></td>
-  <td><img src="__assets__/results/.gif"></td>
-  <td><img src="__assets__/results/.gif"></td>
+  <td><img src="__assets__/results/A car moving on the road from the sea to the mountains.gif" raw=true></td>
+  <td><img src="__assets__/results/A red car drifting, 4k video.gif"></td>
+  <td><img src="__assets__/results/chemistry laboratory, chemical explosion, 4k.gif"></td>
+  <td><img src="__assets__/results/Erupting volcano_ raw power, molten lava, and the forces of the Earth.gif"></td>
 </tr>
 <tr>
   <td width=25% align="center">"A car moving on the road from the sea to the mountains"</td>
