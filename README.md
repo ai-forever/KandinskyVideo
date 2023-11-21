@@ -120,12 +120,12 @@ video = pipeline(
 
 + Vladimir Arkhipkin
 + Zein Shaheen
-+ Viacheslav Vasilev,
-+ Igor Pavlov,
-+ Elizaveta Dakhova,
-+ Anastasia Lysenko,
-+ Sergey Markov,
-+ Denis Dimitrov,
++ Viacheslav Vasilev
++ Igor Pavlov
++ Elizaveta Dakhova
++ Anastasia Lysenko
++ Sergey Markov
++ Denis Dimitrov
 + Andrey Kuznetsov
 
 
