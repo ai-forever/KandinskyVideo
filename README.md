@@ -3,20 +3,8 @@
 
 This repository is the official implementation of Kandinsky Video model
 
-</br>
-Vladimir Arkhipkin,
-Zein Shaheen,
-Viacheslav Vasilev,
-Igor Pavlov,
-Elizaveta Dakhova,
-Anastasia Lysenko,
-Sergey Markov,
-Denis Dimitrov,
-Andrey Kuznetsov
-</br>
 
-
-Paper | [Project](https://ai-forever.github.io/kandinsky-video/) | Hugging Face Spaces | Telegram-bot | Habr post
+Paper | [Project](https://ai-forever.github.io/kandinsky-video/) | ![Hugging Face Spaces](https://img.shields.io/badge/🤗-Huggingface-yello.svg) | [Telegram-bot](https://t.me/video_kandinsky_bot) | Habr post
 
 
 <p align="center">
@@ -128,9 +116,21 @@ video = pipeline(
 </table>
 
 
+# Authors
+
++ Vladimir Arkhipkin
++ Zein Shaheen
++ Viacheslav Vasilev,
++ Igor Pavlov,
++ Elizaveta Dakhova,
++ Anastasia Lysenko,
++ Sergey Markov,
++ Denis Dimitrov,
++ Andrey Kuznetsov
+
 
 ## BibTeX
 If you use our work in your research, please cite our publication:
 ```
-
+TBD
 ```
