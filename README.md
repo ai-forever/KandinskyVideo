@@ -43,7 +43,7 @@ Paper | [Project](https://ai-forever.github.io/kandinsky-video/) | Hugging Face 
 + MoVQ encoder/decoder - 256M
 
 
-## How to use:
+## How to use
 
 Check our jupyter notebooks with examples in `./notebooks` folder
 ### 1. text2video
@@ -85,10 +85,10 @@ video = pipeline(
 </tr>
 
 <tr>
-  <td><img src="__assets__/results/.gif" raw=true></td>
-  <td><img src="__assets__/results/.gif"></td>
-  <td><img src="__assets__/results/.gif"></td>
-  <td><img src="__assets__/results/.gif"></td>
+  <td><img src="__assets__/results/luminescent jellyfish swims underwater, neon, 4k.gif" raw=true></td>
+  <td><img src="__assets__/results/Majestic waterfalls in a lush rainforest_ power, mist, and biodiversity.gif"></td>
+  <td><img src="__assets__/results/white ghost flies through a night clearing, 4k.gif"></td>
+  <td><img src="__assets__/results/Wildlife migration_ herds on the move, crossing landscapes in harmony.gif"></td>
 </tr>
 <tr>
   <td width=25% align="center">"Luminescent jellyfish swims underwater, neon, 4k"</td>
@@ -98,10 +98,10 @@ video = pipeline(
 </tr>
 
 <tr>
-  <td><img src="__assets__/results/.gif" raw=true></td>
-  <td><img src="__assets__/results/.gif"></td>
-  <td><img src="__assets__/results/.gif"></td>
-  <td><img src="__assets__/results/.gif"></td>
+  <td><img src="__assets__/results/Majestic humpback whale breaching_ power, grace, and ocean spectacle.gif" raw=true></td>
+  <td><img src="__assets__/results/Evoke the sense of wonder in a time-lapse journey through changing seasons..gif"></td>
+  <td><img src="__assets__/results/Explore the fascinating world of underwater creatures in a visually stunning sequence.gif"></td>
+  <td><img src="__assets__/results/Polar ice caps_ the pristine wilderness of the Arctic and Antarctic.gif"></td>
 </tr>
 <tr>
   <td width=25% align="center">"Majestic humpback whale breaching power, grace, and ocean spectacle"</td>
@@ -112,10 +112,10 @@ video = pipeline(
 
 
 <tr>
-  <td><img src="__assets__/results/.gif" raw=true></td>
-  <td><img src="__assets__/results/.gif"></td>
-  <td><img src="__assets__/results/.gif"></td>
-  <td><img src="__assets__/results/.gif"></td>
+  <td><img src="__assets__/results/Rolling waves on a sandy beach_ relaxation, rhythm, and coastal beauty.gif" raw=true></td>
+  <td><img src="__assets__/results/Sloth in slow motion_ deliberate movements, relaxation, and arboreal life.gif"></td>
+  <td><img src="__assets__/results/Time-lapse of a flower blooming_ growth, beauty, and the passage of time..gif"></td>
+  <td><img src="__assets__/results/Craft a heartwarming narrative showcasing the bond between a human and their loyal pet companion..gif"></td>
 </tr>
 <tr>
   <td width=25% align="center">"Rolling waves on a sandy beach relaxation, rhythm, and coastal beauty"</td>
