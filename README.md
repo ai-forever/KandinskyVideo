@@ -1,11 +1,47 @@
-# KandinskyVideo — a new text-to-video generation model 
+# Kandinsky Video — a new text-to-video generation model 
 ## SoTA quality among open-source solutions
 
-**Architecture details:**
+This repository is the official implementation of Kandinsky Video model
+
+**Authors**
+
+</br>
+Vladimir Arkhipkin,
+Zein Shaheen,
+Viacheslav Vasilev,
+Igor Pavlov,
+Elizaveta Dakhova,
+Anastasia Lysenko,
+Sergey Markov,
+Denis Dimitrov,
+Andrey Kuznetsov
+</br>
+
+Paper | [Project](https://ai-forever.github.io/kandinsky-video/) | Hugging Face Spaces | Telegram-bot | Habr post
+
+
+<p align="center">
+<img src="__assets__/title.JPG" width="800px"/>  
+<br>
+<em>Kandinsky Video is a text-to-video generation model, which is based on the FusionFrames architecture, consisting of two main stages: keyframe generation and interpolation. Our approach for temporal conditioning allows us to generate videos with high-quality appearance, smoothness and dynamics.</em>
+</p>
+
+
+**Overall pipeline**
+
+<p align="center">
+<img src="__assets__/pipeline.jpg" width="800px"/>  
+<br>
+<em>The encoded text prompt enters the U-Net keyframe generation model with temporal layers or blocks, and then the sampled latent keyframes are  sent to the latent interpolation model in such a way as to predict three interpolation frames between two keyframes. A temporal MoVQ-GAN decoder is used to get the final video result.</em>
+</p>
+
+
+**Architecture details**
 
 + Text encoder (Flan-UL2) - 8.6B
 + Latent Diffusion U-Net3D - 4.0B
 + MoVQ encoder/decoder - 256M
+
 
 ## How to use:
 
@@ -28,3 +64,11 @@ video = pipeline(
     'a red car is drifting on the mountain road, close view, fast movement',
     width=640, height=384, fps='medium'
 )
+```
+
+
+## BibTeX
+If you use our work in your research, please cite our publication:
+```
+
+```
