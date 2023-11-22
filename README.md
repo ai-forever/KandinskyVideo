@@ -4,7 +4,7 @@
 This repository is the official implementation of Kandinsky Video model
 
 
-Paper | [Project](https://ai-forever.github.io/kandinsky-video/) | [![Hugging Face Spaces](https://img.shields.io/badge/🤗-Huggingface-yello.svg)](https://huggingface.co/ai-forever/KandinskyVideo) | [Telegram-bot](https://t.me/video_kandinsky_bot) | Habr post
+Paper | [Project](https://ai-forever.github.io/kandinsky-video/) | [![Hugging Face Spaces](https://img.shields.io/badge/🤗-Huggingface-yello.svg)](https://huggingface.co/ai-forever/KandinskyVideo) | [Telegram-bot](https://t.me/video_kandinsky_bot) | [Habr post](https://habr.com/ru/companies/sberbank/articles/775554/)
 
 
 <p align="center">
