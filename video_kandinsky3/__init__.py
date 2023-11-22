@@ -4,6 +4,7 @@ import os
 
 import numpy as np
 from tqdm import tqdm
+from huggingface_hub import hf_hub_download
 
 import torch
 import omegaconf
@@ -143,3 +144,37 @@ def get_movq(
     if fp16:
         movq = movq.half()
     return movq
+
+
+def get_T2V_pipeline(
+    device: Union[str, torch.device],
+    fp16: bool = False,
+    cache_dir: str = '/tmp/kandinsky_video/',
+    unet_path: str = None,
+    interpolation_unet_path: str = None,
+    text_encode_path: str = None,
+    movq_path: str = None,
+) -> VideoKandinsky3T2VPipeline:
+    if unet_path is None:
+        unet_path = hf_hub_download(
+            repo_id="ai-forever/KandinskyVideo", filename='weights/kandinsky_video.pt', cache_dir=cache_dir
+        )
+    if interpolation_unet_path is None:
+        interpolation_unet_path = hf_hub_download(
+            repo_id="ai-forever/KandinskyVideo", filename='weights/kandinsky_video_interpolation.pt', cache_dir=cache_dir
+        )
+    if text_encode_path is None:
+        text_encode_path = 'google/flan-ul2'
+    if movq_path is None:
+        movq_path = hf_hub_download(
+            repo_id="ai-forever/KandinskyVideo", filename='weights/movq.pt', cache_dir=cache_dir
+        )
+
+    unet, null_embedding, projections_state_dict = get_T2V_unet(device, unet_path, fp16=fp16)
+    interpolation_unet, interpolation_null_embedding = get_interpolation_unet(device, interpolation_unet_path, fp16=fp16)
+    processor, condition_encoders = get_T5encoder(device, text_encode_path, projections_state_dict, fp16=fp16)
+    movq = get_movq(device, movq_path, fp16=fp16)
+    return VideoKandinsky3T2VPipeline(
+        device, unet, null_embedding, interpolation_unet, interpolation_null_embedding,
+        processor, condition_encoders, movq, fp16=fp16
+    )
