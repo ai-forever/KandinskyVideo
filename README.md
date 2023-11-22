@@ -33,24 +33,18 @@ Paper | [Project](https://ai-forever.github.io/kandinsky-video/) | ![Hugging Fac
 
 ## How to use
 
-Check our jupyter notebooks with examples in `./notebooks` folder
+Check our jupyter notebooks with examples in `./examples` folder
 ### 1. text2video
 
 ```python
-from video_kandinsky3 import get_T2V_unet, get_interpolation_unet, get_T5encoder, get_movq, VideoKandinsky3T2VPipeline
+from video_kandinsky3 import get_T2V_pipeline
 
-unet, null_embedding, projections_state_dict = get_T2V_unet('cuda', kandinsky_video.pt, fp16=True)
-interpolation_unet, interpolation_null_embedding = get_interpolation_unet('cuda', kandinsky_video_interpolation.pt, fp16=True)
-processor, condition_encoders = get_T5encoder('cuda', 'google/flan-ul2', projections_state_dict)
-movq = get_movq('cuda', 'movq.pt', fp16=True)
+t2v_pipe = get_T2V_pipeline('cuda', fp16=True)
 
-pipeline = VideoKandinsky3T2VPipeline(
-    'cuda', unet, null_embedding, interpolation_unet, interpolation_null_embedding, processor,
-    condition_encoders, movq, True
-)
-video = pipeline(
+pfps = 'medium' # ['low', 'medium', 'high']
+video = t2v_pipe(
     'a red car is drifting on the mountain road, close view, fast movement',
-    width=640, height=384, fps='medium'
+    width=640, height=384, fps=fps
 )
 ```
 
