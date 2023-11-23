@@ -4,7 +4,7 @@
 This repository is the official implementation of Kandinsky Video model
 
 
-Paper | [Project](https://ai-forever.github.io/kandinsky-video/) | [![Hugging Face Spaces](https://img.shields.io/badge/🤗-Huggingface-yello.svg)](https://huggingface.co/ai-forever/KandinskyVideo) | [Telegram-bot](https://t.me/video_kandinsky_bot) | [Habr post](https://habr.com/ru/companies/sberbank/articles/775554/)
+[Paper](https://arxiv.org/abs/2311.13073) | [Project](https://ai-forever.github.io/kandinsky-video/) | [![Hugging Face Spaces](https://img.shields.io/badge/🤗-Huggingface-yello.svg)](https://huggingface.co/ai-forever/KandinskyVideo) | [Telegram-bot](https://t.me/video_kandinsky_bot) | [Habr post](https://habr.com/ru/companies/sberbank/articles/775554/)
 
 
 <p align="center">
@@ -126,5 +126,10 @@ video = t2v_pipe(
 ## BibTeX
 If you use our work in your research, please cite our publication:
 ```
-TBD
+@article{arkhipkin2023fusionframes,
+  title     = {FusionFrames: Efficient Architectural Aspects for Text-to-Video Generation Pipeline},
+  author    = {Arkhipkin, Vladimir and Shaheen, Zein and Vasilev, Viacheslav and Dakhova, Elizaveta and Kuznetsov, Andrey and Dimitrov, Denis},
+  journal   = {arXiv preprint arXiv:2311.13073},
+  year      = {2023}, 
+}
 ```
