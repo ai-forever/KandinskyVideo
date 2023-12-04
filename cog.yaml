@@ -1,0 +1,31 @@
+# Configuration for Cog ⚙️
+# Reference: https://github.com/replicate/cog/blob/main/docs/yaml.md
+
+build:
+  gpu: true
+  python_version: "3.11"
+  python_packages:
+    - torch==2.0.1
+    - torchvision==0.15.2
+    - timm==0.9.11
+    - pytorch_lightning==1.7.5
+    - transformers==4.35.2
+    - accelerate==0.24.1
+    - diffusers==0.23.1
+    - setuptools==59.5.0
+    - omegaconf==2.3.0
+    - datasets==2.15.0
+    - einops==0.7.0
+    - SentencePiece==0.1.99
+    - webdataset
+    - fsspec
+    - s3fs
+    - hydra-core==1.3.2
+    - scikit-image==0.22.0
+    - matplotlib==3.8.1
+    - ipython
+    - albumentations
+    - bezier
+    - imageio==2.33.0
+    - imageio-ffmpeg==0.4.9
+predict: "predict.py:Predictor"
