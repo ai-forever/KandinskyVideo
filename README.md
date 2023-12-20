@@ -1,7 +1,7 @@
 # Kandinsky Video — a new text-to-video generation model 
 ## SoTA quality among open-source solutions
 
-This repository is the official implementation of Kandinsky Video model
+This repository is the official implementation of Kandinsky Video model.
 
 
 [Paper](https://arxiv.org/abs/2311.13073) | [Project](https://ai-forever.github.io/kandinsky-video/) | [![Hugging Face Spaces](https://img.shields.io/badge/🤗-Huggingface-yello.svg)](https://huggingface.co/ai-forever/KandinskyVideo) | [Telegram-bot](https://t.me/video_kandinsky_bot) | [Habr post](https://habr.com/ru/companies/sberbank/articles/775554/) | [Our text-to-image model](https://github.com/ai-forever/Kandinsky-3/tree/main) 
@@ -10,7 +10,7 @@ This repository is the official implementation of Kandinsky Video model
 <p align="center">
 <img src="__assets__/title.JPG" width="800px"/>
 <br>
-<em>Kandinsky Video is a text-to-video generation model, which is based on the FusionFrames architecture, consisting of two main stages: keyframe generation and interpolation. Our approach for temporal conditioning allows us to generate videos with high-quality appearance, smoothness and dynamics.</em>
+<em>Kandinsky Video is a text-to-video generation model, which is based on the FusionFrames architecture and [Kandinsky 3.0](https://github.com/ai-forever/Kandinsky-3) text-to-image model, consisting of two main stages: keyframe generation and interpolation. Our approach for temporal conditioning allows us to generate videos with high-quality appearance, smoothness and dynamics.</em>
 </p>
 
 
