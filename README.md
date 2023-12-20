@@ -10,7 +10,7 @@ This repository is the official implementation of Kandinsky Video model.
 <p align="center">
 <img src="__assets__/title.JPG" width="800px"/>
 <br>
-<em>Kandinsky Video is a text-to-video generation model, which is based on the FusionFrames architecture and [Kandinsky 3.0](https://github.com/ai-forever/Kandinsky-3) text-to-image model, consisting of two main stages: keyframe generation and interpolation. Our approach for temporal conditioning allows us to generate videos with high-quality appearance, smoothness and dynamics.</em>
+<em>Kandinsky Video is a text-to-video generation model, which is based on the FusionFrames architecture and <a href="https://github.com/ai-forever/Kandinsky-3">Kandinsky 3.0</a> text-to-image model, consisting of two main stages: keyframe generation and interpolation. Our approach for temporal conditioning allows us to generate videos with high-quality appearance, smoothness and dynamics.</em>
 </p>
 
 
