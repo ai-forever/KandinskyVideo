@@ -3,13 +3,12 @@
 
 This repository is the official implementation of Kandinsky Video 1.1 model.
 
-
 [![Hugging Face Spaces](https://img.shields.io/badge/🤗-Huggingface-yello.svg)](https://huggingface.co/ai-forever/KandinskyVideo_1_1) | [Telegram-bot](https://t.me/video_kandinsky_bot) | [Habr post](https://habr.com/ru/companies/sberbank/articles/775554/) | [Our text-to-image model](https://github.com/ai-forever/Kandinsky-3/tree/main)
 
 <p>
 <!-- <img src="__assets__/title.jpg" width="800px"/> -->
 <!-- <br> -->
-Our <B>previous</B> model <a href="https://github.com/ai-forever/KandinskyVideo">Kandinsky Video 1.0</a>, divides the video generation process into two stages: initially generating keyframes at a low FPS and then creating interpolated frames between these keyframes to increase the FPS. In <B>Kandinsky Video 1.1</B>, we further break down the keyframe generation into two extra steps: first, generating the initial frame of the video from the textual prompt using Text to Image <a href="https://github.com/ai-forever/Kandinsky-3">Kandinsky 3.0</a>, and then generating the subsequent keyframes based on the textual prompt and the previously generated first frame. This approach ensures more consistent content across the frames and significantly enhances the overall video quality. Furthermore, the approach allows animating any input image as an additional feature.
+Our <B>previous</B> model <a href="https://github.com/ai-forever/KandinskyVideo/tree/kandinsky_video_1_0">Kandinsky Video 1.0</a>, divides the video generation process into two stages: initially generating keyframes at a low FPS and then creating interpolated frames between these keyframes to increase the FPS. In <B>Kandinsky Video 1.1</B>, we further break down the keyframe generation into two extra steps: first, generating the initial frame of the video from the textual prompt using Text to Image <a href="https://github.com/ai-forever/Kandinsky-3">Kandinsky 3.0</a>, and then generating the subsequent keyframes based on the textual prompt and the previously generated first frame. This approach ensures more consistent content across the frames and significantly enhances the overall video quality. Furthermore, the approach allows animating any input image as an additional feature.
 </p>
 
 
@@ -19,7 +18,7 @@ Our <B>previous</B> model <a href="https://github.com/ai-forever/KandinskyVideo"
 <p align="center">
 <img src="__assets__/pipeline.png" width="800px"/>
 <br>
-<em>In the <a href="https://github.com/ai-forever/KandinskyVideo">Kandinsky Video 1.0</a>, the encoded text prompt enters the text-to-video U-Net3D keyframe generation model with temporal layers or blocks, and then the sampled latent keyframes are sent to the latent interpolation model to predict three interpolation frames between
+<em>In the <a href="https://github.com/ai-forever/KandinskyVideo/tree/kandinsky_video_1_0">Kandinsky Video 1.0</a>, the encoded text prompt enters the text-to-video U-Net3D keyframe generation model with temporal layers or blocks, and then the sampled latent keyframes are sent to the latent interpolation model to predict three interpolation frames between
 two keyframes. An image MoVQ-GAN decoder is used to obtain the final video result. In <B>Kandinsky Video 1.1</B>, text-to-video U-Net3D is also conditioned on text-to-image U-Net2D, which helps to improve the content quality. A temporal MoVQ-GAN decoder is used to decode the final video.</em>
 </p>
 
