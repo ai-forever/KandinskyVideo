@@ -22,3 +22,5 @@ matplotlib
 wandb
 albumentations
 bezier
+av
+sentencepiece
