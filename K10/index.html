@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
-  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+        content="Text-to-video generation model that demonstrates high-quality dynamics, appearance, and text alignment.">
+  <meta name="keywords" content="Text-to-Video, Kandinsky Video">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nerfies: Deformable Neural Radiance Fields</title>
+  <title>Kandinsky Video</title>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script> -->
   <script>
     window.dataLayer = window.dataLayer || [];
 
@@ -32,7 +32,7 @@
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/favicon.svg">
+  <link rel="icon" href="./static/images/video-camera.png">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
@@ -42,85 +42,43 @@
 </head>
 <body>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://keunhong.com">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
-
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://hypernerf.github.io">
-            HyperNeRF
-          </a>
-          <a class="navbar-item" href="https://nerfies.github.io">
-            Nerfies
-          </a>
-          <a class="navbar-item" href="https://latentfusion.github.io">
-            LatentFusion
-          </a>
-          <a class="navbar-item" href="https://photoshape.github.io">
-            PhotoShape
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</nav>
-
-
 <section class="hero">
   <div class="hero-body">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Nerfies: Deformable Neural Radiance Fields</h1>
+          <h1 class="title is-1 publication-title">Kandinsky Video </h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span>
+              <a href="https://ai-forever.github.io/kandinsky-video/">Vladimir Arkhipkin</a><sup>1</sup>,</span>
             <span class="author-block">
-              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
+              <a href="https://ai-forever.github.io/kandinsky-video/">Zein Shaheen</a><sup>1</sup>,</span>
             <span class="author-block">
-              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
+              <a href="https://ai-forever.github.io/kandinsky-video/">Viacheslav Vasilev</a><sup>1,2</sup>,
             </span>
             <span class="author-block">
-              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
+              <a href="https://ai-forever.github.io/kandinsky-video/">Elizaveta Dakhova</a><sup>3</sup>,
+            </span>
+            <br>
+            <span class="author-block">
+              <a href="https://ai-forever.github.io/kandinsky-video/">Andrey Kuznetsov</a><sup>1,3</sup>,
             </span>
             <span class="author-block">
-              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
+              <a href="https://ai-forever.github.io/kandinsky-video/">Denis Dimitrov</a><sup>1,3</sup>
             </span>
           </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>University of Washington,</span>
-            <span class="author-block"><sup>2</sup>Google Research</span>
+            <span class="author-block"><sup>1</sup>Sber AI&nbsp;&nbsp;&nbsp;</span>
+            <span class="author-block"><sup>2</sup>MIPT&nbsp;&nbsp;&nbsp;</span>
+            <span class="author-block"><sup>3</sup>AIRI</span>
           </div>
 
           <div class="column has-text-centered">
             <div class="publication-links">
               <!-- PDF Link. -->
               <span class="link-block">
-                <a href="https://arxiv.org/pdf/2011.12948"
+                <a href="https://arxiv.org/pdf/2311.13073.pdf"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
@@ -129,7 +87,7 @@
                 </a>
               </span>
               <span class="link-block">
-                <a href="https://arxiv.org/abs/2011.12948"
+                <a href="https://arxiv.org/abs/2311.13073"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="ai ai-arxiv"></i>
@@ -137,19 +95,9 @@
                   <span>arXiv</span>
                 </a>
               </span>
-              <!-- Video Link. -->
-              <span class="link-block">
-                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Video</span>
-                </a>
-              </span>
               <!-- Code Link. -->
               <span class="link-block">
-                <a href="https://github.com/google/nerfies"
+                <a href="https://github.com/ai-forever/KandinskyVideo"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -157,15 +105,6 @@
                   <span>Code</span>
                   </a>
               </span>
-              <!-- Dataset Link. -->
-              <span class="link-block">
-                <a href="https://github.com/google/nerfies/releases/tag/0.1"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a>
             </div>
 
           </div>
@@ -175,82 +114,54 @@
   </div>
 </section>
 
-<section class="hero teaser">
-  <div class="container is-max-desktop">
+<section class="hero is-small">
+  <div class="columns is-centered has-text-centered">
     <div class="hero-body">
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4"
-                type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
-        free-viewpoint
-        portraits.
-      </h2>
-    </div>
-  </div>
-</section>
-
-
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
+      <div class="container">
+      <!-- <div id="results-carousel" class="carousel results-carousel">
         <div class="item item-steve">
           <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/steve.mp4"
+            <source src="./static/videos/meduza.mp4"
                     type="video/mp4">
           </video>
         </div>
         <div class="item item-chair-tp">
           <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/chair-tp.mp4"
+            <source src="./static/videos/fireplace.mp4"
                     type="video/mp4">
           </video>
         </div>
         <div class="item item-shiba">
           <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/shiba.mp4"
+            <source src="./static/videos/explosion.mp4"
                     type="video/mp4">
           </video>
         </div>
         <div class="item item-fullbody">
           <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/fullbody.mp4"
+            <source src="./static/videos/road.mp4"
                     type="video/mp4">
           </video>
-        </div>
-        <div class="item item-blueshirt">
-          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/blueshirt.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-mask">
-          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/mask.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-coffee">
-          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/coffee.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-toby">
-          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/toby2.mp4"
-                    type="video/mp4">
-          </video>
+        </div>  
+      </div>
+    </div> -->
+    	    <img src="./static/images/title.JPG"
+    	    class="interpolation-image"
+    	    alt="Interpolate start reference image."/>
+            <p class="subtitle has-text-centered">
+              <b>Kandinsky Video</b> is a text-to-video generation model, which is based on the <a href="https://arxiv.org/abs/2311.13073"><b>FusionFrames</b></a> architecture and <a href="https://ai-forever.github.io/Kandinsky-3/"><b>Kandinsky 3.0</b></a> text-to-image model, consisting of two main stages - keyframe generation and interpolation.
+              Our approach for temporal conditioning allows us to generate videos with high-quality appearance, smoothness and dynamics.
+            </p>
         </div>
       </div>
-    </div>
   </div>
 </section>
 
+<!-- FusionFrames is a text-to-video generation model consisting of two main stages - keyframe generation and interpolation.  -->
+<!-- Our approach for temporal conditioning allows us to generate videos with high-quality appearance, smoothness and dynamics. -->
+<!--  -->
 
-<section class="section">
+<section class="section hero is-light">
   <div class="container is-max-desktop">
     <!-- Abstract. -->
     <div class="columns is-centered has-text-centered">
@@ -258,213 +169,198 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We present the first method capable of photorealistically reconstructing a non-rigidly
-            deforming scene using photos/videos captured casually from mobile phones.
-          </p>
-          <p>
-            Our approach augments neural radiance fields
-            (NeRF) by optimizing an
-            additional continuous volumetric deformation field that warps each observed point into a
-            canonical 5D NeRF.
-            We observe that these NeRF-like deformation fields are prone to local minima, and
-            propose a coarse-to-fine optimization method for coordinate-based models that allows for
-            more robust optimization.
-            By adapting principles from geometry processing and physical simulation to NeRF-like
-            models, we propose an elastic regularization of the deformation field that further
-            improves robustness.
-          </p>
-          <p>
-            We show that <span class="dnerf">Nerfies</span> can turn casually captured selfie
-            photos/videos into deformable NeRF
-            models that allow for photorealistic renderings of the subject from arbitrary
-            viewpoints, which we dub <i>"nerfies"</i>. We evaluate our method by collecting data
-            using a
-            rig with two mobile phones that take time-synchronized photos, yielding train/validation
-            images of the same pose at different viewpoints. We show that our method faithfully
-            reconstructs non-rigidly deforming scenes and reproduces unseen views with high
-            fidelity.
+            Multimedia generation approaches occupy a prominent place in artificial intelligence research. Text-to-image models achieved high-quality results over the last few years. However, video synthesis methods recently started to develop. This paper presents a new two-stage latent diffusion
+text-to-video generation architecture based on the text-to-image diffusion model. The first stage concerns keyframes synthesis to figure the storyline of a video, while the second one is devoted to interpolation frames generation to make movements of the scene and objects smooth. We compare
+several temporal conditioning approaches for keyframes generation. The results show the advantage of using separate temporal blocks over temporal layers in terms of metrics reflecting video generation quality aspects and human preference. The design of our interpolation model significantly reduces computational costs compared to other masked frame interpolation approaches. Furthermore, we evaluate different configurations of MoVQ-based video decoding scheme to improve consistency and achieve higher PSNR, SSIM, MSE, and LPIPS scores. Finally, we compare our pipeline with existing solutions and achieve top-2 scores overall and top-1 among open-source solutions: CLIPSIM = 0.2976 and FVD = 433.054. 
           </p>
         </div>
       </div>
     </div>
     <!--/ Abstract. -->
 
-    <!-- Paper video. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
-        <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-    <!--/ Paper video. -->
   </div>
 </section>
-
-
 <section class="section">
   <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-      <!-- Visual Effects. -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">Visual Effects</h2>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Overall Pipeline</h2>
+        <div class="content has-text-justified">
+          <img src="./static/images/pipeline.jpg"
+            class="interpolation-image"
+            alt="Interpolate start reference image."/>
           <p>
-            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
-            would be impossible without nerfies since it would require going through a wall.
+            The encoded text prompt enters the U-Net keyframe generation model with temporal layers or blocks, and then the sampled latent keyframes are  sent to the latent interpolation model in such a way as to predict three interpolation frames between two keyframes. A temporal MoVQ-GAN decoder is used to get the final video result.
           </p>
-          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/dollyzoom-stacked.mp4"
-                    type="video/mp4">
-          </video>
         </div>
-      </div>
-      <!--/ Visual Effects. -->
-
-      <!-- Matting. -->
-      <div class="column">
-        <h2 class="title is-3">Matting</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <p>
-              As a byproduct of our method, we can also solve the matting problem by ignoring
-              samples that fall outside of a bounding box during rendering.
-            </p>
-            <video id="matting-video" controls playsinline height="100%">
-              <source src="./static/videos/matting.mp4"
-                      type="video/mp4">
-            </video>
-          </div>
-
-        </div>
-      </div>
+      </div>    
     </div>
     <!--/ Matting. -->
 
-    <!-- Animation. -->
-    <div class="columns is-centered">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Keyframes Generation with Temporal Conditioning </h2>
+          <div class="content has-text-justified">
+            <img src="./static/images/temporal_layers_blocks.jpg"
+            class="interpolation-image"
+            alt="Interpolate start reference image."/>
+          <p>
+            We examined two approaches of temporal components use in pretrained architecture of T2I U-Net from Kandinsky 3.0 – the traditional approach of mixing spatial and temporal layers in one block (<b>left</b>) and our approach of allocating a separate temporal block (<b>middle</b>). 
+            All layers indicated in gray are not trained in T2V architectures and are initialized with the weights of the T2I Kandinsky 3.0 model. 
+            NA and N in the left corner of all layers correspond to the presence of prenormalization layers with and without activation, respectively. 
+            For different types of blocks we implemented different types of temporal attention and temporal convolution layers, (<b>left</b>). 
+            We also implement different types of temporal conditioning. One of them is simple conditioning when pixel see only itself value in different moments of type (1D layers). 
+            In 3D layers pixels can see the values of its neighbors also in different moments of time (<b>right</b>).
+          </p>
+          </div>
+        </div>    
+      </div>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Video Frame Interpolation</h2>
+          <div class="content has-text-justified">
+            <img src="./static/images/interpolation_ours.jpg"
+            class="interpolation-image"
+            alt="Interpolate start reference image."/>
+          <p>
+            A summary of the primary changes made to the T2I architecture includes: 
+            (i) The input convolution now accepts three noisy latent inputs (interpolated frames) and two conditioning latent inputs (keyframes). 
+            (ii) The output convolution predicts three denoised latents.
+             (iii) Temporal convolutions have been introduced after each spatial convolution.
+
+          </p>
+          </div>
+        </div>    
+      </div>
+    
+    <div class="columns is-centered has-text-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3">Animation</h2>
-
-        <!-- Interpolating. -->
-        <h3 class="title is-4">Interpolating states</h3>
+        <h2 class="title is-3">Results for temporal conditioning</h2>
         <div class="content has-text-justified">
-          <p>
-            We can also animate the scene by interpolating the deformation latent codes of two input
-            frames. Use the slider here to linearly interpolate between the left frame and the right
-            frame.
-          </p>
+        
+        <img src="./static/images/panda_generations.jpg"
+            class="interpolation-image"
+            alt="Interpolate start reference image."/>
+          
+        <p>
+          We propose our approach for temporal conditioning based on separate temporal blocks. 
+          We compared three types of temporal blocks with temporal layers, which were commonly used in previous works, and gained the advantage of our approach in terms of frame quality, text alignment and temporal consistency.
+        </p>
+        
+        <div class="container">
+          <h3>Comparison</h3>
+          <table class="center">
+              <tbody><tr<td></td><td></td><td></td><td></td></tr>
+              <tr>
+                <td><img src="./static/videos/Meerkat_conv_attn_blocks_1d.gif" raw="true"></td>
+                <td><img src="./static/videos/Meerkat_conv_attn_blocks_3dattn.gif"></td>
+                <td><img src="./static/videos/Meerkat_conv_attn_blocks_3dconv.gif"></td>              
+                <td><img src="./static/videos/Meerkat_conv_attn_layers_1d.gif"></td>
+              </tr>
+              <tr>
+                <td width="25%" style="text-align:center;">Conv1dAttn1dBlocks</td>
+                <td width="25%" style="text-align:center;">Conv1dAttn3dBlocks</td>
+                <td width="25%" style="text-align:center;">Conv3dAttn1dBlocks</td>
+                <td width="25%" style="text-align:center;">Conv1dAttn1dLayers</td>
+              </tr>
+            </tbody>
+            </table>
         </div>
-        <div class="columns is-vcentered interpolation-panel">
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_start.jpg"
-                 class="interpolation-image"
-                 alt="Interpolate start reference image."/>
-            <p>Start Frame</p>
-          </div>
-          <div class="column interpolation-video-column">
-            <div id="interpolation-image-wrapper">
-              Loading...
-            </div>
-            <input class="slider is-fullwidth is-large is-info"
-                   id="interpolation-slider"
-                   step="1" min="0" max="100" value="0" type="range">
-          </div>
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_end.jpg"
-                 class="interpolation-image"
-                 alt="Interpolation end reference image."/>
-            <p class="is-bold">End Frame</p>
-          </div>
+        
         </div>
-        <br/>
-        <!--/ Interpolating. -->
+      </div>    
+    </div>
 
-        <!-- Re-rendering. -->
-        <h3 class="title is-4">Re-rendering the input video</h3>
-        <div class="content has-text-justified">
-          <p>
-            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
-            viewpoint such as a stabilized camera by playing back the training deformations.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/replay.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <!--/ Re-rendering. -->
-
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <div class="content has-text-justified">  
+            <h2 class="title is-3">Other results</h2>
+            <table class="center">
+              <tbody><tr><td></td><td></td><td></td><td></td></tr>
+              <tr>
+                <td><img src="./static/videos/A car moving on the road from the sea to the mountains.gif" raw="true"></td>
+                <td><img src="./static/videos/A red car drifting, 4k video.gif"></td>
+                <td><img src="./static/videos/chemistry laboratory, chemical explosion, 4k.gif"></td>              
+                <td><img src="./static/videos/Erupting volcano_ raw power, molten lava, and the forces of the Earth.gif"></td>
+              </tr>
+              <tr>
+                <td width="25%" style="text-align:center;">"A car moving on the road from the sea to the mountains"</td>
+                <td width="25%" style="text-align:center;">"A red car drifting, 4k video"</td>
+                <td width="25%" style="text-align:center;">"Chemistry laboratory, chemical explosion, 4k"</td>
+                <td width="25%" style="text-align:center;">"Erupting volcano raw power, molten lava, and the forces of the Earth"</td>
+              </tr>
+              <tr><td></td><td></td><td></td><td></td></tr>
+              <tr>
+                <td><img src="./static/videos/luminescent jellyfish swims underwater, neon, 4k.gif" raw="true"></td>
+                <td><img src="./static/videos/Majestic waterfalls in a lush rainforest_ power, mist, and biodiversity.gif"></td>
+                <td><img src="./static/videos/white ghost flies through a night clearing, 4k.gif"></td>              
+                <td><img src="./static/videos/Wildlife migration_ herds on the move, crossing landscapes in harmony.gif"></td>
+              </tr>
+              <tr>
+                <td width="25%" style="text-align:center;">"Luminescent jellyfish swims underwater, neon, 4k"</td>
+                <td width="25%" style="text-align:center;">"Majestic waterfalls in a lush rainforest power, mist, and biodiversity"</td>
+                <td width="25%" style="text-align:center;">"White ghost flies through a night clearing, 4k"</td>
+                <td width="25%" style="text-align:center;">"Wildlife migration herds on the move, crossing landscapes in harmony"</td>
+              </tr>
+              <tr><td></td><td></td><td></td><td></td></tr>
+              <tr>
+                <td><img src="./static/videos/Majestic humpback whale breaching_ power, grace, and ocean spectacle.gif" raw="true"></td>
+                <td><img src="./static/videos/Evoke the sense of wonder in a time-lapse journey through changing seasons.gif"></td>
+                <td><img src="./static/videos/Explore the fascinating world of underwater creatures in a visually stunning sequence.gif"></td>              
+                <td><img src="./static/videos/Polar ice caps_ the pristine wilderness of the Arctic and Antarctic.gif"></td>
+              </tr>
+              <tr>
+                <td width="25%" style="text-align:center;">"Majestic humpback whale breaching power, grace, and ocean spectacle"</td>
+                <td width="25%" style="text-align:center;">"Evoke the sense of wonder in a time-lapse journey through changing seasons"</td>
+                <td width="25%" style="text-align:center;">"Explore the fascinating world of underwater creatures in a visually stunning sequence"</td>
+                <td width="25%" style="text-align:center;">"Polar ice caps the pristine wilderness of the Arctic and Antarctic"</td>
+              </tr>
+              <tr><td></td><td></td><td></td><td></td></tr>
+              <tr>
+                <td><img src="./static/videos/Rolling waves on a sandy beach_ relaxation, rhythm, and coastal beauty.gif" raw="true"></td>
+                <td><img src="./static/videos/Sloth in slow motion_ deliberate movements, relaxation, and arboreal life.gif"></td>
+                <td><img src="./static/videos/Sunrise over a tranquil mountain landscape_ colors, serenity, and awakening.gif"></td>              
+                <td><img src="./static/videos/Craft a heartwarming narrative showcasing the bond between a human and their loyal pet companion.gif"></td>
+              </tr>
+              <tr>
+                <td width="25%" style="text-align:center;">"Rolling waves on a sandy beach relaxation, rhythm, and coastal beauty"</td>
+                <td width="25%" style="text-align:center;">"Sloth in slow motion deliberate movements, relaxation, and arboreal life"</td>
+                <td width="25%" style="text-align:center;">"Sunrise over a tranquil mountain landscape colors, serenity, and awakening"</td>
+                <td width="25%" style="text-align:center;">"Craft a heartwarming narrative showcasing the bond between a human and their loyal pet companion"</td>
+              </tr>
+            </tbody></table>
+        </div>    
       </div>
     </div>
-    <!--/ Animation. -->
-
-
-    <!-- Concurrent Work. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Related Links</h2>
-
-        <div class="content has-text-justified">
-          <p>
-            There's a lot of excellent work that was introduced around the same time as ours.
-          </p>
-          <p>
-            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
-          </p>
-          <p>
-            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
-            both use deformation fields to model non-rigid scenes.
-          </p>
-          <p>
-            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
-          </p>
-          <p>
-            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
-          </p>
-        </div>
-      </div>
-    </div>
-    <!--/ Concurrent Work. -->
-
   </div>
+
+<hr>
+<section class="section" id="Acknowledgment">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Acknowledgment</h2>
+
+    The authors express great gratitude to Igor Pavlov, Anastasia Lysenko and Sergey Markov for their contribution in collecting and processing video data,
+     thanks to which this study became possible and Andrei Filatov for building the site.
+
+
+  </div></section>
+
 </section>
-
-
+<hr>
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <pre><code>@article{park2021nerfies,
-  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
-  title     = {Nerfies: Deformable Neural Radiance Fields},
-  journal   = {ICCV},
-  year      = {2021},
+    <pre><code>@article{arkhipkin2023fusionframes,
+  title     = {FusionFrames: Efficient Architectural Aspects for Text-to-Video Generation Pipeline},
+  author    = {Arkhipkin, Vladimir and Shaheen, Zein and Vasilev, Viacheslav and Dakhova, Elizaveta and Kuznetsov, Andrey and Dimitrov, Denis},
+  journal   = {arXiv preprint arXiv:2311.13073},
+  year      = {2023}, 
 }</code></pre>
   </div>
 </section>
 
-
 <footer class="footer">
   <div class="container">
-    <div class="content has-text-centered">
-      <a class="icon-link"
-         href="./static/videos/nerfies_paper.pdf">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
     <div class="columns is-centered">
       <div class="column is-8">
         <div class="content">
@@ -473,18 +369,10 @@
                                                 href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
             Commons Attribution-ShareAlike 4.0 International License</a>.
           </p>
-          <p>
-            This means you are free to borrow the <a
-              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
-            we just ask that you link back to this page in the footer.
-            Please remember to remove the analytics code included in the header of the website which
-            you do not want on your website.
-          </p>
         </div>
       </div>
     </div>
   </div>
 </footer>
-
 </body>
 </html>
