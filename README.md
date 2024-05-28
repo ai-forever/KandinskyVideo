@@ -3,7 +3,7 @@
 
 This repository is the official implementation of Kandinsky Video 1.1 model.
 
-[![Hugging Face Spaces](https://img.shields.io/badge/🤗-Huggingface-yello.svg)](https://huggingface.co/ai-forever/KandinskyVideo_1_1) | [Telegram-bot](https://t.me/video_kandinsky_bot) | [Habr post](https://habr.com/ru/companies/sberbank/articles/775554/) | [Our text-to-image model](https://github.com/ai-forever/Kandinsky-3/tree/main)
+[![Hugging Face Spaces](https://img.shields.io/badge/🤗-Huggingface-yello.svg)](https://huggingface.co/ai-forever/KandinskyVideo_1_1) | [Telegram-bot](https://t.me/) | [Habr post](https://habr.com/ru/companies/sberbank/articles/817667/) | [Our text-to-image model](https://github.com/ai-forever/Kandinsky-3/tree/main) | [Project page](https://ai-forever.github.io/KandinskyVideo/K11/)
 
 <p>
 <!-- <img src="__assets__/title.jpg" width="800px"/> -->
